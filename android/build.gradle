@@ -4,7 +4,7 @@ version '1.0'
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -16,7 +16,7 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -40,7 +40,11 @@ android {
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.11.4'
+        if (project.hasProperty('protoc_platform')) {
+            artifact = "com.google.protobuf:protoc:3.11.4:${protoc_platform}"
+        } else {
+            artifact = "com.google.protobuf:protoc:3.11.4"
+        }
     }
     generateProtoTasks {
         all().each { task ->
