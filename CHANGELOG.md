@@ -1,3 +1,10 @@
+## 0.9.0
+* Android migrate to mavenCentral.
+* Android support build on Macs M1
+* Android protobuf-gradle-plugin:0.8.15 -> 0.8.17
+* Ios example upgrade to latest flutter 2.5
+* deprecated/removed widgets fixed in example
+
 ## 0.8.0
 * Migrate the plugin to null safety.
 
