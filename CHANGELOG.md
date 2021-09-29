@@ -1,3 +1,11 @@
+## 0.10.0
+* mtuRequest returns the negotiated MTU
+* Android: functions to turn on/off bluetooth
+* Android: add null check if channel is already teared down
+* Android: code small refactoring (fixed AS warnings)
+* Android: add null check if channel is already teared down
+* Ios: widen protobuf version allowed
+
 ## 0.9.0
 * Android migrate to mavenCentral.
 * Android support build on Macs M1
