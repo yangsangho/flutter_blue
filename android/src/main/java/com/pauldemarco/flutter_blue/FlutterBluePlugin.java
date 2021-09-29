@@ -14,7 +14,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
-import android.bluetooth.BluetoothGattServer;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
@@ -59,11 +58,15 @@ import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
+enum LogLevel
+{
+    EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG;
+}
 
 /** FlutterBluePlugin */
 public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener  {
     private static final String TAG = "FlutterBluePlugin";
-    private Object initializationLock = new Object();
+    private final Object initializationLock = new Object();
     private Context context;
     private MethodChannel channel;
     private static final String NAMESPACE = "plugins.pauldemarco.com/flutter_blue";
@@ -982,11 +985,6 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
         }
     };
 
-    enum LogLevel
-    {
-        EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG;
-    }
-
     private void log(LogLevel level, String message) {
         if(level.ordinal() <= logLevel.ordinal()) {
             Log.d(TAG, message);
@@ -1006,7 +1004,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
 
     // BluetoothDeviceCache contains any other cached information not stored in Android Bluetooth API
     // but still needed Dart side.
-    class BluetoothDeviceCache {
+    static class BluetoothDeviceCache {
         final BluetoothGatt gatt;
         int mtu;
 
