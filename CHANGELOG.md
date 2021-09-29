@@ -1,3 +1,9 @@
+## 0.11.0
+* Android: removed V1Embedding
+* Android: removed graddle.properties
+* Android: enable background usage
+* Ios: remove support only for x86_64 simulators
+
 ## 0.10.0
 * mtuRequest returns the negotiated MTU
 * Android: functions to turn on/off bluetooth
