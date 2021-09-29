@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -57,6 +58,12 @@ class BluetoothOffScreen extends StatelessWidget {
                   .subtitle2
                   ?.copyWith(color: Colors.white),
             ),
+            ElevatedButton(
+              child: Text('TURN ON'),
+              onPressed: Platform.isAndroid
+                  ? () => FlutterBlue.instance.turnOn()
+                  : null,
+            ),
           ],
         ),
       ),
@@ -70,6 +77,18 @@ class FindDevicesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Find Devices'),
+        actions: [
+          ElevatedButton(
+            child: Text('TURN OFF'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.black,
+              onPrimary: Colors.white,
+            ),
+            onPressed: Platform.isAndroid
+                ? () => FlutterBlue.instance.turnOff()
+                : null,
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () =>
