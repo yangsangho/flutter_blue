@@ -534,7 +534,9 @@ public class FlutterBluePlugin implements FlutterPlugin, MethodCallHandler, Requ
                     characteristic = locateCharacteristic(gattServer, request.getServiceUuid(), request.getSecondaryServiceUuid(), request.getCharacteristicUuid());
                     cccDescriptor = characteristic.getDescriptor(CCCD_ID);
                     if(cccDescriptor == null) {
-                        throw new Exception("could not locate CCCD descriptor for characteristic: " +characteristic.getUuid().toString());
+                        //Some devices - including the widely used Bluno do not actually set the CCCD_ID.
+                        //thus setNotifications works perfectly (tested on Bluno) without cccDescriptor
+                        log(LogLevel.INFO, "could not locate CCCD descriptor for characteristic: " + characteristic.getUuid().toString());
                     }
                 } catch(Exception e) {
                     result.error("set_notification_error", e.getMessage(), null);
@@ -565,14 +567,16 @@ public class FlutterBluePlugin implements FlutterPlugin, MethodCallHandler, Requ
                     return;
                 }
 
-                if(!cccDescriptor.setValue(value)) {
-                    result.error("set_notification_error", "error when setting the descriptor value to: " + Arrays.toString(value), null);
-                    return;
-                }
+                if(cccDescriptor != null) {
+                    if (!cccDescriptor.setValue(value)) {
+                        result.error("set_notification_error", "error when setting the descriptor value to: " + Arrays.toString(value), null);
+                        return;
+                    }
 
-                if(!gattServer.writeDescriptor(cccDescriptor)) {
-                    result.error("set_notification_error", "error when writing the descriptor", null);
-                    return;
+                    if (!gattServer.writeDescriptor(cccDescriptor)) {
+                        result.error("set_notification_error", "error when writing the descriptor", null);
+                        return;
+                    }
                 }
 
                 result.success(null);

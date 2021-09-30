@@ -2,6 +2,7 @@
 * Android: removed V1Embedding
 * Android: removed graddle.properties
 * Android: enable background usage
+* Android: Cannot handle devices that do not set CCCD_ID (2902) includes BLUNO #185 #797
 * Ios: remove support only for x86_64 simulators
 * The timeout was throwing out of the Future's scope #941
 * Expose onValueChangedStream #882
