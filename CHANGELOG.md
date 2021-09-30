@@ -3,6 +3,7 @@
 * Android: removed graddle.properties
 * Android: enable background usage
 * Ios: remove support only for x86_64 simulators
+* The timeout was throwing out of the Future's scope #941
 
 ## 0.10.0
 * mtuRequest returns the negotiated MTU
