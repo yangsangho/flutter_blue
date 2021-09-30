@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
@@ -58,11 +59,6 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
-
-enum LogLevel
-{
-    EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG
-}
 
 /** FlutterBluePlugin */
 public class FlutterBluePlugin implements FlutterPlugin, MethodCallHandler, RequestPermissionsResultListener, ActivityAware {
@@ -264,6 +260,17 @@ public class FlutterBluePlugin implements FlutterPlugin, MethodCallHandler, Requ
                 List<BluetoothDevice> devices = mBluetoothManager.getConnectedDevices(BluetoothProfile.GATT);
                 Protos.ConnectedDevicesResponse.Builder p = Protos.ConnectedDevicesResponse.newBuilder();
                 for(BluetoothDevice d : devices) {
+                    p.addDevices(ProtoMaker.from(d));
+                }
+                result.success(p.build().toByteArray());
+                log(LogLevel.EMERGENCY, "mDevices size: " + mDevices.size());
+                break;
+            }
+
+            case "getBondedDevices": {
+                final Set<BluetoothDevice> bondedDevices = mBluetoothAdapter.getBondedDevices();
+                Protos.ConnectedDevicesResponse.Builder p = Protos.ConnectedDevicesResponse.newBuilder();
+                for (BluetoothDevice d : bondedDevices) {
                     p.addDevices(ProtoMaker.from(d));
                 }
                 result.success(p.build().toByteArray());
@@ -1005,6 +1012,11 @@ public class FlutterBluePlugin implements FlutterPlugin, MethodCallHandler, Requ
                 }
             }
         });
+    }
+
+    enum LogLevel
+    {
+        EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUG
     }
 
     // BluetoothDeviceCache contains any other cached information not stored in Android Bluetooth API

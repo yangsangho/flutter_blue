@@ -5,6 +5,7 @@
 * Android: removed graddle.properties
 * Android: enable background usage
 * Android: cannot handle devices that do not set CCCD_ID (2902) includes BLUNO #185 #797
+* Android: add method for getting bonded devices #586
 * Ios: remove support only for x86_64 simulators
 * Ios: Don't initialize CBCentralManager until needed #599
 
