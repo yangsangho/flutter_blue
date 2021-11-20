@@ -1,3 +1,6 @@
+## 0.12.0
+* Delay Bluetooth permission & turn-on-Bluetooth system popups on iOS #964
+
 ## 0.11.0
 * The timeout was throwing out of the Future's scope #941
 * Expose onValueChangedStream #882

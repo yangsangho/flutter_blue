@@ -18,7 +18,7 @@ class FlutterBlue {
       _methodStreamController.add(call);
     });
 
-    _setLogLevelIfAvailable();
+    setLogLevel(logLevel);
   }
 
   static FlutterBlue _instance = new FlutterBlue._();
@@ -102,13 +102,6 @@ class FlutterBlue {
         .then((buffer) => protos.ConnectedDevicesResponse.fromBuffer(buffer))
         .then((p) => p.devices)
         .then((p) => p.map((d) => BluetoothDevice.fromProto(d)).toList());
-  }
-
-  _setLogLevelIfAvailable() async {
-    if (await isAvailable) {
-      // Send the log level to the underlying platforms.
-      setLogLevel(logLevel);
-    }
   }
 
   /// Starts a scan for Bluetooth Low Energy devices and returns a stream
