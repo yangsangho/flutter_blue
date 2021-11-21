@@ -1,3 +1,6 @@
+## 0.13.0
+* Supporting Android 12 Bluetooth permissions. #940
+
 ## 0.12.0
 * Delay Bluetooth permission & turn-on-Bluetooth system popups on iOS #964
 
