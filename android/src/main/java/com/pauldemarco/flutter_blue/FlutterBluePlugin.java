@@ -333,18 +333,23 @@ public class FlutterBluePlugin implements FlutterPlugin, MethodCallHandler, Requ
 
             case "disconnect":
             {
-                String deviceId = (String)call.arguments;
-                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceId);
-                int state = mBluetoothManager.getConnectionState(device, BluetoothProfile.GATT);
-                BluetoothDeviceCache cache = mDevices.remove(deviceId);
-                if(cache != null) {
-                    BluetoothGatt gattServer = cache.gatt;
-                    gattServer.disconnect();
-                    if(state == BluetoothProfile.STATE_DISCONNECTED) {
-                        gattServer.close();
+                try {
+                    String deviceId = (String)call.arguments;
+                    BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceId);
+                    int state = mBluetoothManager.getConnectionState(device, BluetoothProfile.GATT);
+                    BluetoothDeviceCache cache = mDevices.remove(deviceId);
+                    if(cache != null) {
+                        BluetoothGatt gattServer = cache.gatt;
+                        gattServer.disconnect();
+                        if(state == BluetoothProfile.STATE_DISCONNECTED) {
+                            gattServer.close();
+                        }
                     }
+                    result.success(null);
+                } catch (Exception e) {
+                    result.error("yangbob, 이게 왜 실행될까.....", e.getMessage(), e);
                 }
-                result.success(null);
+                
                 break;
             }
 
