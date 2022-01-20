@@ -19,7 +19,15 @@ class BluetoothService {
             .map((c) => new BluetoothCharacteristic.fromProto(c))
             .toList(),
         includedServices = p.includedServices
-            .map((s) => new BluetoothService.fromProto(s))
+            .map((s) {
+              try {
+                return new BluetoothService.fromProto(s);
+              } catch (e) {
+                log(e.toString());
+                return null;
+              }
+            })
+            .whereNotNull()
             .toList();
 
   @override

@@ -68,7 +68,17 @@ class BluetoothDevice {
         .map((buffer) => new protos.DiscoverServicesResult.fromBuffer(buffer))
         .where((p) => p.remoteId == id.toString())
         .map((p) => p.services)
-        .map((s) => s.map((p) => new BluetoothService.fromProto(p)).toList())
+        .map((s) => s
+            .map((p) {
+              try {
+                return new BluetoothService.fromProto(p);
+              } catch (e) {
+                log(e.toString());
+                return null;
+              }
+            })
+            .whereNotNull()
+            .toList())
         .first
         .then((list) {
       _services.add(list);

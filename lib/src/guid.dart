@@ -19,22 +19,24 @@ class Guid {
   Guid.empty() : this._internal(new List.filled(16, 0));
 
   static List<int> _fromMacString(String input) {
-    input = _removeNonHexCharacters(input);
-    final bytes = hex.decode(input);
+    final nonHexInput = _removeNonHexCharacters(input);
+    final bytes = hex.decode(nonHexInput);
 
     if (bytes.length != 6) {
-      throw new FormatException("The format is invalid: " + input);
+      throw new FormatException(
+          "The format is invalid: nonHexInput = $nonHexInput, originInput = $input");
     }
 
     return bytes + List<int>.filled(10, 0);
   }
 
   static List<int> _fromString(String input) {
-    input = _removeNonHexCharacters(input);
-    final bytes = hex.decode(input);
+    final nonHexInput = _removeNonHexCharacters(input);
+    final bytes = hex.decode(nonHexInput);
 
     if (bytes.length != 16) {
-      throw new FormatException("The format is invalid");
+      throw new FormatException(
+          "The format is invalid: nonHexInput = $nonHexInput, originInput = $input");
     }
 
     return bytes;
