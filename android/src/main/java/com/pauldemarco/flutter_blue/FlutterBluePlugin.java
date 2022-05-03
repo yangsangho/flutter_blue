@@ -150,6 +150,9 @@ public class FlutterBluePlugin implements FlutterPlugin, MethodCallHandler, Requ
 
     private void tearDown() {
         synchronized (tearDownLock) {
+            BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
+            if(scanner != null && scanCallback21 != null) scanner.stopScan(scanCallback21);
+
             Log.d(TAG, "teardown");
             context = null;
             channel.setMethodCallHandler(null);
